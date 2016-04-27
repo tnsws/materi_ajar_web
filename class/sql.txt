@@ -1,0 +1,116 @@
+-- phpMyAdmin SQL Dump
+-- version 3.5.2.2
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: Mar 29, 2016 at 05:27 AM
+-- Server version: 5.5.27
+-- PHP Version: 5.4.7
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `db_wp_berita`
+--
+CREATE DATABASE `db_wp_berita` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `db_wp_berita`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_berita`
+--
+
+CREATE TABLE IF NOT EXISTS `tb_berita` (
+  `idberita` int(11) NOT NULL AUTO_INCREMENT,
+  `judul` varchar(150) NOT NULL,
+  `konten` text NOT NULL,
+  `gambar` varchar(200) NOT NULL,
+  `wkt_post` datetime NOT NULL,
+  `wkt_update` datetime NOT NULL,
+  `idpengguna` int(11) NOT NULL,
+  `idkategori` int(11) NOT NULL,
+  PRIMARY KEY (`idberita`),
+  KEY `idpengguna` (`idpengguna`),
+  KEY `idkategori` (`idkategori`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `tb_berita`
+--
+
+INSERT INTO `tb_berita` (`idberita`, `judul`, `konten`, `gambar`, `wkt_post`, `wkt_update`, `idpengguna`, `idkategori`) VALUES
+(1, 'Judul Berita', '<p> Konten berita</p>', '#', '2016-03-15 00:00:00', '2016-03-15 00:00:00', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_kategori`
+--
+
+CREATE TABLE IF NOT EXISTS `tb_kategori` (
+  `idkategori` int(11) NOT NULL AUTO_INCREMENT,
+  `kategori` varchar(15) NOT NULL,
+  `jmlberita` int(11) NOT NULL,
+  PRIMARY KEY (`idkategori`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_komentar`
+--
+
+CREATE TABLE IF NOT EXISTS `tb_komentar` (
+  `idkomentar` int(11) NOT NULL DEFAULT '0',
+  `nama` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `komentar` text NOT NULL,
+  `status` enum('P','S') NOT NULL,
+  `idberita` int(11) NOT NULL,
+  PRIMARY KEY (`idkomentar`),
+  KEY `idberita` (`idberita`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_menu`
+--
+
+CREATE TABLE IF NOT EXISTS `tb_menu` (
+  `idmenu` int(2) NOT NULL DEFAULT '0',
+  `teks` varchar(50) NOT NULL,
+  `link` varchar(200) NOT NULL,
+  `induk` int(2) NOT NULL,
+  `tampil` enum('y','t') NOT NULL,
+  PRIMARY KEY (`idmenu`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_pengguna`
+--
+
+CREATE TABLE IF NOT EXISTS `tb_pengguna` (
+  `idpengguna` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(35) NOT NULL,
+  `password` varchar(200) NOT NULL,
+  `nama_depan` varchar(25) NOT NULL,
+  `nama_blkg` varchar(25) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `foto` varchar(200) NOT NULL,
+  `telp` varchar(15) NOT NULL,
+  PRIMARY KEY (`idpengguna`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `tb_pengguna`
+--
+
+INSERT INTO `tb_pengguna` (`idpengguna`, `username`, `password`, `nama_depan`, `nama_blkg`, `email`, `foto`, `telp`) VALUES
+(1, 'tns', 'tns', 'Muh', 'Taufiq', 'tns@comic.com', 'files/pengguna/tns.png', '0000000'),
+(2, 'tes', '28b662d883b6d76fd96e4ddc5e9ba780', 'tes', 'aja', 'tes@tes.aja', 'gambar/BambangPamungkas.jpg', '99999');
